@@ -107,14 +107,14 @@ The script will:
 - Process and prepare data for machine learning
 - Train LSTM and CNN models
 - Calculate climate indices (SPEI, PDSI, SPI, THI)
-- Generate visualizations in the `output` directory
+- Generate visualizations in the `visualization` directory
 - Save model outputs in the `output` directory
 - Log progress in `climate_analysis.log`
 
 4. View results:
-- Training history plots: `output/training_history.png`
-- Climate indices plots: `output/climate_indices.png`
-- Correlation heatmaps: `output/correlation_heatmap.png`
+- Training history plots: `visualization/training_history.png`
+- Climate indices plots: `visualization/climate_indices.png`
+- Correlation heatmaps: `visualization/correlation_heatmap.png`
 - Model predictions: `output/predictions{feature}.png`
 
 ## Configuration
