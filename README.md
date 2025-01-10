@@ -199,8 +199,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Sushant Tripathi - *Initial work* - [Sushant2520](https://github.com/Sushant2520)
 - Atin Kumar Srivastava - *Initial work* - [atin20721](https://github.com/atin20721)
 - Shivangi - *Initial work* - [shivangichaudhary](https://github.com/shivangichaudhary)
-- SN Chandra Kanta Kund - *Initial work* - [saiaryansahoo](https://github.com/saiaryansahoo)
-- Sai Aryan Sahoo - *Initial work* - [snckkund](https://github.com/snckkund)
+- SN Chandra Kanta Kund - *Initial work* - [snckkund](https://github.com/snckkund)
+- Sai Aryan Sahoo - *Initial work* - [saiaryansahoo](https://github.com/saiaryansahoo)
 
 ## Acknowledgments
 
