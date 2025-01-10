@@ -9,11 +9,15 @@ import os
 app = Flask(__name__)
 
 # Load the predictions data
-predictions_df = pd.read_csv('notebooks/output/future_predictions.csv', index_col=0)
-predictions_df.index = pd.date_range(start='2025-01-31', end='2025-12-31', freq='M')
-
-# Convert humidity to percentage
-predictions_df['Humidity'] = predictions_df['Humidity'] * 100
+predictions_file = os.path.join('notebooks', 'output', 'future_predictions.csv')
+if os.path.exists(predictions_file):
+    predictions_df = pd.read_csv(predictions_file, index_col=0)
+    predictions_df.index = pd.date_range(start='2025-01-31', end='2025-12-31', freq='M')
+    # Convert humidity to percentage
+    predictions_df['Humidity'] = predictions_df['Humidity'] * 100
+else:
+    # Handle the case where the file doesn't exist
+    predictions_df = pd.DataFrame()
 
 @app.route('/')
 def index():
@@ -43,4 +47,5 @@ def get_metrics():
     return jsonify(metrics)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
