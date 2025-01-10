@@ -7,58 +7,261 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
-        .card {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+        nav {
+            background-color: #007bff;
+            color: white;
+            height: 50px;
+            position: fixed;
+            width: 100vw;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .github-link {
+            margin-left: auto;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            background-color: #0056b3;
+            height: 50px;
+            padding: 0 15px;
+        }
+        .github-link img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+        .container {
+            margin-top: 60px;
+            padding: 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden; /* Prevent overflow */
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        .metrics-container {
+            max-height: 80vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .metrics-section {
+            margin-bottom: 20px;
+        }
+        .metrics-card {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        .metrics-card:hover {
+            transform: translateY(-2px);
+        }
+        .metrics-card h6 {
+            color: #007bff;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            text-align: left;
         }
         .metric-value {
-            font-size: 1.5em;
-            font-weight: bold;
+            font-size: 1.1em;
+            font-weight: 600;
             color: #2c3e50;
+            margin-bottom: 2px;
         }
         .metric-label {
-            color: #7f8c8d;
-            font-size: 0.9em;
+            color: #6c757d;
+            font-size: 0.7em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .metrics-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 8px;
+        }
+        .metric-item {
+            text-align: center;
+            flex: 1;
+            padding: 0 4px;
+        }
+        .metric-item:not(:last-child) {
+            border-right: 1px solid #dee2e6;
+        }
+        .section-header {
+            color: #2c3e50;
+            font-size: 1em;
+            font-weight: 600;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #007bff;
+            margin-bottom: 12px;
+        }
+        /* Custom scrollbar for metrics container */
+        .metrics-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .metrics-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .metrics-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        .metrics-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        .plot-container {
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            position: relative;
+        }
+        .main-content {
+            padding-top: 30px;
+        }
+        @media (max-width: 768px) {
+            nav {
+                padding: 10px 15px;
+                margin-bottom: 30px;
+            }
+            .main-content {
+                padding-top: 40px;
+            }
+            .container {
+                padding-top: 20px;
+            }
+            nav .navbar-brand {
+                font-size: 1.2em;
+            }
+            nav img {
+                max-width: 20px;
+            }
+            .plot-container {
+                height: 50vh;
+                min-height: 300px;
+            }
+            .row > [class*='col-'] {
+                margin-bottom: 20px;
+            }
+            .card {
+                height: 100%;
+            }
+        }
+        
+        /* Add spacing between cards */
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 10px;
+        }
+        .card-body {
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid py-4">
-        <h1 class="text-center mb-4">Climate Predictions Dashboard (2025)</h1>
-        
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Time Series Visualization</h5>
-                        <div id="timeSeriesPlot"></div>
-                        <div class="mt-3">
-                            <select id="variableSelector" class="form-select">
-                                <option value="Humidity">Humidity</option>
-                                <option value="LST">Land Surface Temperature</option>
-                                <option value="Precipitation">Precipitation</option>
-                                <option value="RainFall">Rainfall</option>
-                                <option value="WindSpeed">Wind Speed</option>
-                                <option value="SPEI">SPEI</option>
-                                <option value="PDSI">PDSI</option>
-                                <option value="SPI">SPI</option>
-                                <option value="THI">THI</option>
-                            </select>
+    <nav>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/visualization">Visualization</a>
+        </div>
+        <a href="https://github.com/snckkund/capstone-geosynta" target="_blank" class="github-link">
+            <img src="https://github.githubassets.com/images/modules/site/icons/footer/github-mark.svg" alt="GitHub Logo" style="filter: brightness(0) invert(1);">
+        </a>
+    </nav>
+    <div class="main-content">
+        <div class="container mt-4">
+            <h2 class="mb-3">Climate Data Analysis</h2>
+            <p class="mb-4">Explore various climatic factors and indices through visualizations.</p>
+            <div class="row g-4">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Time Series Visualization</h5>
+                            <div class="plot-container">
+                                <div id="timeSeriesPlot"></div>
+                            </div>
+                            <div class="mt-3">
+                                <select id="variableSelector" class="form-select">
+                                    <option value="Humidity">Humidity</option>
+                                    <option value="LST">Land Surface Temperature</option>
+                                    <option value="Precipitation">Precipitation</option>
+                                    <option value="RainFall">Rainfall</option>
+                                    <option value="WindSpeed">Wind Speed</option>
+                                    <option value="SPEI">SPEI</option>
+                                    <option value="PDSI">PDSI</option>
+                                    <option value="SPI">SPI</option>
+                                    <option value="THI">THI</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Variable Metrics</h5>
-                        <div id="metrics"></div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Variable Metrics</h5>
+                            <div class="metrics-container" id="metrics"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
         let predictionsData = null;
 
@@ -75,29 +278,79 @@
             .then(response => response.json())
             .then(data => {
                 const metricsDiv = document.getElementById('metrics');
-                Object.entries(data).forEach(([variable, metrics]) => {
-                    const metricCard = document.createElement('div');
-                    metricCard.className = 'mb-3';
-                    metricCard.innerHTML = `
-                        <h6>${variable}</h6>
-                        <div class="row">
-                            <div class="col-4 text-center">
-                                <div class="metric-value">${metrics.mean}</div>
-                                <div class="metric-label">Mean</div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="metric-value">${metrics.max}</div>
-                                <div class="metric-label">Max</div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="metric-value">${metrics.min}</div>
-                                <div class="metric-label">Min</div>
-                            </div>
-                        </div>
-                    `;
-                    metricsDiv.appendChild(metricCard);
+                metricsDiv.className = 'metrics-container';
+                
+                // Define the order of variables
+                const climaticFactors = ['Humidity', 'LST', 'Precipitation', 'RainFall', 'WindSpeed'];
+                const climaticIndices = ['SPEI', 'PDSI', 'SPI', 'THI'];
+
+                // Create Climatic Factors section
+                const factorsSection = document.createElement('div');
+                factorsSection.className = 'metrics-section';
+                
+                const factorsHeader = document.createElement('h5');
+                factorsHeader.className = 'section-header';
+                factorsHeader.textContent = 'Climatic Factors';
+                factorsSection.appendChild(factorsHeader);
+
+                const factorsGrid = document.createElement('div');
+                factorsGrid.className = 'metrics-grid';
+                factorsSection.appendChild(factorsGrid);
+
+                // Display Climatic Factors
+                climaticFactors.forEach(variable => {
+                    if (data[variable]) {
+                        createMetricCard(variable, data[variable], factorsGrid);
+                    }
                 });
+
+                metricsDiv.appendChild(factorsSection);
+
+                // Create Climatic Indices section
+                const indicesSection = document.createElement('div');
+                indicesSection.className = 'metrics-section';
+                
+                const indicesHeader = document.createElement('h5');
+                indicesHeader.className = 'section-header';
+                indicesHeader.textContent = 'Climatic Indices';
+                indicesSection.appendChild(indicesHeader);
+
+                const indicesGrid = document.createElement('div');
+                indicesGrid.className = 'metrics-grid';
+                indicesSection.appendChild(indicesGrid);
+
+                // Display Climatic Indices
+                climaticIndices.forEach(variable => {
+                    if (data[variable]) {
+                        createMetricCard(variable, data[variable], indicesGrid);
+                    }
+                });
+
+                metricsDiv.appendChild(indicesSection);
             });
+
+        function createMetricCard(variable, metrics, container) {
+            const metricCard = document.createElement('div');
+            metricCard.className = 'metrics-card';
+            metricCard.innerHTML = `
+                <h6>${variable}</h6>
+                <div class="metrics-row">
+                    <div class="metric-item">
+                        <div class="metric-value">${parseFloat(metrics.mean).toFixed(2)}</div>
+                        <div class="metric-label">Mean</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${parseFloat(metrics.max).toFixed(2)}</div>
+                        <div class="metric-label">Maximum</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${parseFloat(metrics.min).toFixed(2)}</div>
+                        <div class="metric-label">Minimum</div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(metricCard);
+        }
 
         // Update plot when variable selection changes
         document.getElementById('variableSelector').addEventListener('change', updatePlot);
@@ -132,25 +385,60 @@
             };
 
             const layout = {
-                title: `${selectedVariable} Predictions for 2025`,
+                title: {
+                    text: `${selectedVariable} Predictions for 2025`,
+                    y: 0.95,
+                    font: {
+                        size: 16,
+                        weight: 500
+                    }
+                },
                 xaxis: {
                     title: 'Date',
-                    tickangle: -45
+                    tickangle: -45,
+                    automargin: true
                 },
                 yaxis: {
-                    title: yAxisTitle
+                    title: yAxisTitle,
+                    automargin: true
                 },
                 margin: {
-                    l: 50,
-                    r: 50,
-                    b: 100,
-                    t: 50,
-                    pad: 4
+                    l: 60,
+                    r: 30,
+                    b: 80,
+                    t: 80,
+                    pad: 5
+                },
+                autosize: true,
+                showlegend: false,
+                hovermode: 'closest',
+                plot_bgcolor: '#ffffff',
+                paper_bgcolor: '#ffffff'
+            };
+
+            const config = {
+                responsive: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+                toImageButtonOptions: {
+                    format: 'png',
+                    filename: `${selectedVariable}_predictions`,
+                    height: 800,
+                    width: 1200,
+                    scale: 2
                 }
             };
 
-            Plotly.newPlot('timeSeriesPlot', [trace], layout);
+            Plotly.newPlot('timeSeriesPlot', [trace], layout, config);
+
+            // Add resize event listener
+            window.addEventListener('resize', function() {
+                Plotly.Plots.resize('timeSeriesPlot');
+            });
         }
     </script>
+    <footer>
+        <p>&copy; 2025 Team Geosynta. All rights reserved.</p>
+    </footer>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, send_from_directory
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -45,6 +45,14 @@ def get_metrics():
             'min': round(predictions_df[column].min(), 2)
         }
     return jsonify(metrics)
+
+@app.route('/visualization')
+def visualization():
+    return render_template('visualization.html')
+
+@app.route('/visualization/<path:path>')
+def serve_animation_files(path):
+    return send_from_directory('notebooks/animations_map', path)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))

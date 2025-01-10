@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+        nav {
+            background-color: #007bff;
+            color: white;
+            height: 50px;
+            position: fixed;
+            width: 100vw;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .github-link {
+            margin-left: auto;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            background-color: #0056b3;
+            height: 50px;
+            padding: 0 15px;
+        }
+        .github-link img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+        .container {
+            margin-top: 60px;
+            padding: 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden; /* Prevent overflow */
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .grid div {
+            margin: 10px;
+            flex: 0 0 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+            box-sizing: border-box; /* Ensure padding is included in width */
+        }
+        .grid img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            background-color: white;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            display: block;
+            animation: zoom 0.5s;
+        }
+        @keyframes zoom {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .grid div {
+                flex: 0 0 calc(100% - 20px);
+            }
+            nav {
+                padding: 0 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/visualization">Visualization</a>
+        </div>
+        <a href="https://github.com/snckkund/capstone-geosynta" target="_blank" class="github-link">
+            <img src="https://github.githubassets.com/images/modules/site/icons/footer/github-mark.svg" alt="GitHub Logo" style="filter: brightness(0) invert(1);">
+        </a>
+    </nav>
+    <div class="container">
+        <h1>Animation Visualization</h1>
+        <h2 style="margin-bottom: 30px;">Climatic Factors Visualization</h2>
+        <div class="grid">
+            <div>
+                <h3>Humidity Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='Humidity_map.gif') }}" alt="Humidity Map" onclick="openModal(this.src)">
+            </div>
+            <div>
+                <h3>LST Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='LST_map.gif') }}" alt="LST Map" onclick="openModal(this.src)">
+            </div>
+            <div>
+                <h3>Precipitation Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='Precipitation_map.gif') }}" alt="Precipitation Map" onclick="openModal(this.src)">
+            </div>
+            <div>
+                <h3>Rainfall Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='RainFall_map.gif') }}" alt="Rainfall Map" onclick="openModal(this.src)">
+            </div>
+            <div>
+                <h3>Wind Speed Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='WindSpeed_map.gif') }}" alt="Wind Speed Map" onclick="openModal(this.src)">
+            </div>
+        </div>
+        <h2 style="margin-top: 30px; margin-bottom: 30px;">Climatic Indices Visualization</h2>
+        <div class="grid">
+            <div>
+                <h3>PDSI Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='PDSI_map.gif') }}" alt="PDSI Map" onclick="openModal(this.src)">
+            </div>
+            <div>
+                <h3>SPEI Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='SPEI_map.gif') }}" alt="SPEI Map" onclick="openModal(this.src)">
+            </div>
+            <div>
+                <h3>SPI Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='SPI_map.gif') }}" alt="SPI Map" onclick="openModal(this.src)">
+            </div>
+            <div>
+                <h3>THI Map</h3>
+                <img src="{{ url_for('serve_animation_files', path='THI_map.gif') }}" alt="THI Map" onclick="openModal(this.src)">
+            </div>
+        </div>
+        <div id="myModal" class="modal" onclick="closeModal()">
+            <img class="modal-content" id="img01">
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 Team Geosynta. All rights reserved.</p>
+    </footer>
+    <script>
+        function openModal(src) {
+            document.getElementById('myModal').style.display = 'flex';
+            document.getElementById('img01').src = src;
+        }
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
