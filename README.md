@@ -7,6 +7,13 @@ A comprehensive machine learning system for analyzing and predicting climate pat
 
 This project leverages multiple satellite data sources and machine learning to provide accurate climate predictions and analysis. It combines data from various sources including MODIS, CHIRPS, GLDAS, and COPERNICUS to create a robust climate prediction model.
 
+## Deployment Status
+[![UptimeRobot Status](https://img.shields.io/uptimerobot/status/m798376059-c3bdfb7b638ef92d4f20fa24)](https://img.shields.io/uptimerobot/status/m798376059-c3bdfb7b638ef92d4f20fa24)
+
+Visit the live static site showcasing the results: [GeoSynta](https://geosynta-g180.onrender.com/)
+
+View detailed site status: [UptimeRobot Public Status Page](https://stats.uptimerobot.com/LK6IP0iTTw/798376059)
+
 ## Features
 
 - Advanced data retrieval using Google Earth Engine (GEE)
